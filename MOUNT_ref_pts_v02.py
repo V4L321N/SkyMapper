@@ -1,5 +1,6 @@
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
+import os
 
 def generate_reference_point_tracking_file(lat, lon, alt, az, el, start_time=None):
     """
@@ -14,10 +15,12 @@ def generate_reference_point_tracking_file(lat, lon, alt, az, el, start_time=Non
     """
     # Default to current UTC if no start_time provided
     if start_time is None:
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
     
-    # Generate filename (e.g., "RPT4530.txt")
+    folder_path = "C:/Users/vstok/OneDrive/Desktop/SLR Thesis/pyCODE_AdaptiveOptics/SkyMapper/ref_pnt_data"
+    # Generate filename (e.g., "RPT4530.GRZ")
     filename = f"RPT{int(az):02d}{int(el):02d}.GRZ"
+    file_path = os.path.join(folder_path, filename)
 
     # Header metadata (placeholders for satellite-specific fields)
     day_of_year = start_time.timetuple().tm_yday
@@ -63,7 +66,7 @@ def generate_reference_point_tracking_file(lat, lon, alt, az, el, start_time=Non
         current_time += timedelta(seconds=300)  # 5-minute step
     
     # Write to file
-    with open(filename, "w") as f:
+    with open(file_path, "w") as f:
         f.write(header)
         f.writelines(data_lines)
     
@@ -110,7 +113,7 @@ if __name__ == "__main__":
     # Observer location (Graz, Austria)
     lat = 47.0671
     lon = 15.4933
-    alt = 539.4  # meters
+    alt = 539.4  # Station altitude in meters
 
     # Generate files for all Az/El pairs
     az_values = np.arange(0, 360, 45)  # [0°, 45°, ..., 315°]

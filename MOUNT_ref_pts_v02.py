@@ -14,34 +14,36 @@ def generate_reference_point_tracking_file(lat, lon, alt, az, el, start_time=Non
         str: Generated filename (e.g., "RPT045030.txt" for Az=45°, El=30°).
     """
     # Default to current UTC if no start_time provided
-    if start_time is None:
-        start_time = datetime.now(timezone.utc)
+    start_time = datetime.now(timezone.utc) - timedelta(hours=1)
     
     folder_path = "C:/Users/vstok/OneDrive/Desktop/SLR Thesis/pyCODE_AdaptiveOptics/SkyMapper/ref_pnt_data"
-    # Generate filename (e.g., "RPT4530.GRZ")
-    filename = f"RPT{int(az):02d}{int(el):02d}.GRZ"
-    file_path = os.path.join(folder_path, filename)
 
     # Header metadata (placeholders for satellite-specific fields)
     day_of_year = start_time.timetuple().tm_yday
     hour_min_sec = start_time.strftime("%H%M%S")
     year = start_time.year
     
+
+    # Generate filename (e.g., "RPT4530.GRZ")
+    filename = f"X{number}{day_of_year}{start_time.hour:02d}"
+    file_path = os.path.join(folder_path, filename)
+    
     # Generate header
     header = (
-        f"RPT{day_of_year:03d}{start_time.hour} " # e.g., RPT11613 (RPT + DOY + hour)
-        f"REF_POINT  "                            # 10-char name
-        f"RPT{int(az):02d}{int(el):02d}   "       # CPF-like placeholder
-        f"   1808 "                               # SAT number
+        f"X{number}{day_of_year:03d}{start_time.hour:02d} " # e.g., RPT11613 (RPT + DOY + hour)
+        f"R_PNT     "                             # 10-char name
+        f"RP_TEST "         # CPF-like placeholder
+        f"1808 "                               # SAT number
         f"0000000 "                               # COSPAR placeholder
-        f"{az:2.1f} {el:4.1f} "                   # Az/El at closest approach
-        f"   {year} "                             # Year
-        f"  {day_of_year:03d} "                   # Day-of-year
+        f"{az:4.0f} " 
+        f"{el:2.1f} "                   # Az/El at closest approach
+        f"{year} "                             # Year
+        f"{day_of_year:03d} "                   # Day-of-year
         f"{hour_min_sec} "                        # Start time (HHMMSS)
-        f"    300 "                               # Time interval (5 min = 300 sec)
-        f"  100 "                                 # Number of lines
+        f"300 "                               # Time interval (5 min = 300 sec)
+        f"100 "                                 # Number of lines
         f"  0   0 "                               # Polar motion placeholders
-        f"  1  -1\n"                              # Visibility flags
+        f"1     -1\n"                              # Visibility flags
     )
     
     # Generate data lines (100 entries, 5-minute intervals)
@@ -57,11 +59,14 @@ def generate_reference_point_tracking_file(lat, lon, alt, az, el, start_time=Non
         
         # Format line
         line = (
-            f"{time_str}    "
-            f"{az:8.4f}   {el:8.4f}    "
-            f"{distance_km:10.4f}   "
-            f"{X:15.4f}{Y:15.4f}{Z:15.4f}\n"
-        )
+                f"{time_str:<6} "
+                f"{az:9.4f} " 
+                f"{el:8.4f}   "
+                f"{distance_km:10.4f}   "
+                f"{X:12.4f}   "
+                f"{Y:12.4f}   "
+                f"{Z:12.4f}\n"
+            )
         data_lines.append(line)
         current_time += timedelta(seconds=300)  # 5-minute step
     
@@ -119,7 +124,23 @@ if __name__ == "__main__":
     az_values = np.arange(0, 360, 45)  # [0°, 45°, ..., 315°]
     el_values = np.arange(15, 105, 15)  # [15°, 30°, ..., 90°]
 
+    number=10
+
     for az in az_values:
         for el in el_values:
-            filename = generate_reference_point_tracking_file(lat, lon, alt, az, el)
+            # Get the current time for each iteration
+            start_time = datetime.now(timezone.utc)
+            day_of_year = start_time.timetuple().tm_yday  # Calculate day_of_year inside the loop
+
+            # Generate the filename
+            filename = f"X{number:02d}{day_of_year:03d}{start_time.hour:02d}"  # Format with leading zeros
+            generate_reference_point_tracking_file(lat, lon, alt, az, el, start_time=start_time)
             print(f"Generated: {filename} (Az={az}°, El={el}°)")
+
+            number += 1  # Increment the counter
+
+    # for az in az_values:
+    #     for el in el_values:
+    #         filename = generate_reference_point_tracking_file(lat, lon, alt, az, el)
+    #         filename = f"X{number:02d}{day_of_year}{start_time.hour:02d}"  # Format with leading zeros
+    #         print(f"Generated: {filename} (Az={az}°, El={el}°)")

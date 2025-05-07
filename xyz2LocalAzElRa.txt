@@ -1,0 +1,20 @@
+QList <double > PredictSLR::xyz2LocalAzElRa(double satX, double satY, double satZ)
+{
+    double  offset_XX=satX-site_2_XX,
+            offset_YY=satY-site_2_YY,
+            offset_ZZ=satZ-site_2_ZZ;
+    double  sat_UU=-offset_XX*sin(site_2_Long)+offset_YY*cos(site_2_Long),
+            sat_VV=-offset_XX*sin(site_2_Lat)*cos(site_2_Long)-offset_YY*sin(site_2_Lat)*sin(site_2_Long)+offset_ZZ*cos(site_2_Lat),
+            sat_WW=offset_XX*cos(site_2_Lat)*cos(site_2_Long)+offset_YY*cos(site_2_Lat)*sin(site_2_Long)+offset_ZZ*sin(site_2_Lat);
+    double  sat_RANG=sqrt(offset_XX*offset_XX+offset_YY*offset_YY+offset_ZZ*offset_ZZ),         //[m]
+            sat_AZ=atan2(sat_UU,sat_VV),                                                        //[radians]
+            sat_EL =atan2(sat_WW,sqrt(sat_UU*sat_UU+sat_VV*sat_VV));                            //[radians]
+
+ 
+    sat_EL=sat_EL/DEG2RAD ;                  //From [Radian] to [Degree]
+    sat_AZ=sat_AZ/DEG2RAD ;                  //From [Radian] to [Degree]
+
+    QList <double> sate_info;
+    sate_info<<sat_AZ<<sat_EL<<sat_RANG/1000;//[Degree],[Degree],[km]
+    return sate_info;
+}

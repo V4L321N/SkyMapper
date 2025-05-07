@@ -138,9 +138,3 @@ if __name__ == "__main__":
             print(f"Generated: {filename} (Az={az}°, El={el}°)")
 
             number += 1  # Increment the counter
-
-    # for az in az_values:
-    #     for el in el_values:
-    #         filename = generate_reference_point_tracking_file(lat, lon, alt, az, el)
-    #         filename = f"X{number:02d}{day_of_year}{start_time.hour:02d}"  # Format with leading zeros
-    #         print(f"Generated: {filename} (Az={az}°, El={el}°)")

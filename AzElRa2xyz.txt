@@ -1,0 +1,26 @@
+
+QList <double > PredictSLR::AzElRa2xyz(double sat_AZ, double sat_EL, double sat_RANG)   //[deg],[deg],[km]
+{
+    double satX,satY,satZ;
+
+    sat_AZ   = sat_AZ * DEG2RAD; //from [deg] to [rad]
+    sat_EL   = sat_EL * DEG2RAD; //from [deg] to [rad]
+    sat_RANG = sat_RANG * 1000; //from [km] to [m]
+
+    double south = - sat_RANG * cos (sat_EL) * cos(sat_AZ);
+    double east  =   sat_RANG * cos (sat_EL) * sin(sat_AZ);
+    double zenith=   sat_RANG * sin (sat_EL);
+
+    double site_2_Lat_sin = sin (site_2_Lat);
+    double site_2_Lat_cos = cos (site_2_Lat);
+    double site_2_Long_sin= sin (site_2_Long);
+    double site_2_Long_cos= cos (site_2_Long);
+
+    satX = (  site_2_Lat_sin * site_2_Long_cos * south) + ( - site_2_Long_sin * east) + (site_2_Lat_cos * site_2_Long_cos * zenith) + site_2_XX;
+    satY = (  site_2_Lat_sin * site_2_Long_sin * south) + (   site_2_Long_cos * east) + (site_2_Lat_cos * site_2_Long_sin * zenith) + site_2_YY;
+    satZ = ( -site_2_Lat_cos                   * south) + (   site_2_Lat_sin  * zenith)                                             + site_2_ZZ;
+
+    QList <double > qList_ret;
+    qList_ret <<satX << satY <<satZ;
+    return qList_ret;
+}

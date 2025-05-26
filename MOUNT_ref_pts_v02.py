@@ -145,3 +145,19 @@ if __name__ == "__main__":
             print(f"Generated: {filename} (Az={az}°, El={el}°)")
 
             number += 1  # Increment the counter
+
+    
+    ### For elevations only ###
+    
+    # for el in el_values:
+    #     az = 0
+    #     # Get the current time for each iteration
+    #     start_time = datetime.now(timezone.utc)
+    #     day_of_year = start_time.timetuple().tm_yday  # Calculate day_of_year inside the loop
+
+    #     # Generate the filename
+    #     filename = f"X{number:02d}{day_of_year:03d}{start_time.hour:02d}"  # Format with leading zeros
+    #     generate_reference_point_tracking_file(az, el, lat, lon, start_time=start_time)
+    #     print(f"Generated: {filename} (Az={az}°, El={el}°)")
+
+    #     number += 1  # Increment the counter

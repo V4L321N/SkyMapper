@@ -24,7 +24,7 @@ def generate_reference_point_tracking_file(az, el, lat, lon, start_time=None):
     year = start_time.year
     
 
-    # Generate filename (e.g., "RPT4530.GRZ")
+    # Generate filename (e.g., "XyyDAYTIME.GRZ")
     filename = f"X{number}{day_of_year}{start_time.hour:02d}"
     file_path = os.path.join(folder_path, filename)
     
@@ -68,7 +68,7 @@ def generate_reference_point_tracking_file(az, el, lat, lon, start_time=None):
                 f"{Z:12.4f}\n"
             )
         data_lines.append(line)
-        current_time += timedelta(seconds=300)  # 5-minute step
+        current_time += timedelta(seconds=100)#300)  # 5-minute step
     
     # Write to file
     with open(file_path, "w") as f:
@@ -128,15 +128,17 @@ if __name__ == "__main__":
     alt = 539.4  # Station altitude in meters
 
     # Generate files for all Az/El pairs
-    az_values = np.arange(0, 360, 45)  # [0°, 45°, ..., 315°]
-    el_values = np.arange(15, 105, 15)  # [15°, 30°, ..., 90°]
+    #az_values = np.arange(0, 360, 45)  # [0°, 45°, ..., 315°]
+    #el_values = np.arange(15, 105, 15)  # [15°, 30°, ..., 90°]
+    az_values = [0, 45, 90, 135, 180, 225, 270, 315]  # Azimuth values in degrees
+    el_values = [15, 30, 45, 60, 75, 89]
 
     number=10
 
     for az in az_values:
         for el in el_values:
             # Get the current time for each iteration
-            start_time = datetime.now(timezone.utc)
+            start_time = datetime.now(timezone.utc) - timedelta(hours=1)
             day_of_year = start_time.timetuple().tm_yday  # Calculate day_of_year inside the loop
 
             # Generate the filename

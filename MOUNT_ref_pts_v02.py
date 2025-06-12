@@ -14,7 +14,7 @@ def generate_reference_point_tracking_file(az, el, lat, lon, start_time=None):
         str: Generated filename (e.g., "RPT045030.txt" for Az=45°, El=30°).
     """
     # Default to current UTC if no start_time provided
-    start_time = datetime.now(timezone.utc) - timedelta(hours=1)
+    start_time = datetime.now(timezone.utc) - timedelta(minutes=10)
     
     folder_path = "C:/Users/vstok/OneDrive/Desktop/SLR Thesis/pyCODE_AdaptiveOptics/SkyMapper/ref_pnt_data"
 
@@ -147,6 +147,10 @@ if __name__ == "__main__":
             print(f"Generated: {filename} (Az={az}°, El={el}°)")
 
             number += 1  # Increment the counter
+
+
+
+
 
     
     ### For elevations only ###

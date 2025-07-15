@@ -7,4 +7,4 @@ It is being used to provide a visualisation of:
 
 # Mount Ref Pts
 
-generates files to track the reference points as defined and in a way so that the system understands
+generates files to track the reference points as defined and in a way so that the system requirements are met

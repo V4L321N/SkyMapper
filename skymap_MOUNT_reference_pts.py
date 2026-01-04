@@ -25,7 +25,7 @@ for az, el in reference_points:
     ax.scatter(az_rad, el, color=elevation_colors[el], s=88, edgecolor='k', label=f"{el}°" if az == azimuths[0] else None)
 ax.set_rlabel_position(0)  # Move radial labels to 0 degrees
 ax.set_theta_direction(-1)  # To have azimuths go clockwise
-ax.set_theta_offset(np.pi/2)#4*3*np.pi/4)  
+ax.set_theta_offset(np.pi/2)#4*3*np.pi/4) 
 ax.set_rlim(90, 0)  # Set radial limits from 0 to 90 degrees
 ax.set_yticks([15,30,45,60,75,90], [' 15°',' 30°',' 45°',' 60°',' 75°',' 90°'], fontsize=11)
 ax.set_xticks(np.radians(np.arange(0, 360, 45)), ['0°/ N','45°','       90°/ E','135°','180°/ S','225°','270°/ W         ','315°'], fontsize=12)
@@ -36,7 +36,7 @@ handles, labels = ax.get_legend_handles_labels()
 #     ax.legend(loc='lower right', fontsize=12, frameon=False)
 
 
-plt.savefig('C:/Users/vstok/OneDrive/Desktop/SLR Thesis/Pictures/Figures/skymap_MOUNT_reference_pts.png', dpi=500, bbox_inches='tight')
+plt.savefig('Pictures/Figures/skymap_MOUNT_reference_pts.png', dpi=500, bbox_inches='tight')
 plt.show()
 # transform Az/El coordinated to x,y,z coordinates in the earth centered, earth fixed coordinate system
 '''def az_el_to_xyz(az, el):

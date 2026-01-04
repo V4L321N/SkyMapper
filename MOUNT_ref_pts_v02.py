@@ -16,7 +16,7 @@ def generate_reference_point_tracking_file(az, el, lat, lon, start_time=None):
     # Default to current UTC if no start_time provided
     start_time = datetime.now(timezone.utc) - timedelta(minutes=10)
     
-    folder_path = "C:/Users/vstok/OneDrive/Desktop/SLR Thesis/pyCODE_AdaptiveOptics/SkyMapper/ref_pnt_data"
+    folder_path = "pyCODE_AdaptiveOptics/SkyMapper/ref_pnt_data"
 
     # Header metadata (placeholders for satellite-specific fields)
     day_of_year = start_time.timetuple().tm_yday
@@ -147,11 +147,6 @@ if __name__ == "__main__":
             print(f"Generated: {filename} (Az={az}°, El={el}°)")
 
             number += 1  # Increment the counter
-
-
-
-
-
     
     ### For elevations only ###
     

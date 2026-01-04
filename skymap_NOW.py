@@ -69,9 +69,6 @@ tle_lines = [
 # ]
 
 
-
-
-
 observer_latitude = 47.067155  # Example: Graz
 observer_longitude = 15.493364
 

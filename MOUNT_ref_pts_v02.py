@@ -4,7 +4,7 @@ import os
 
 def generate_reference_point_tracking_file(az, el, lat, lon, start_time=None):
     """
-    Generate a dummy tracking file with static Az/El, 5-minute intervals, and Az/El in filename.
+    Generate a dummy tracking file for the SLR setup at the station in Graz with static Az/El, 5-minute intervals, and Az/El in filename.
     
     Args:
         lat, lon, alt (float): Observer's geodetic coordinates (deg, deg, m).
@@ -16,7 +16,7 @@ def generate_reference_point_tracking_file(az, el, lat, lon, start_time=None):
     # Default to current UTC if no start_time provided
     start_time = datetime.now(timezone.utc) - timedelta(minutes=10)
     
-    folder_path = "pyCODE_AdaptiveOptics/SkyMapper/ref_pnt_data"
+    folder_path = "SkyMapper/ref_pnt_data"
 
     # Header metadata (placeholders for satellite-specific fields)
     day_of_year = start_time.timetuple().tm_yday
